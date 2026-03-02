@@ -24,15 +24,15 @@ impl ResultTable {
         self.rows.push(row);
     }
 
-    pub fn render(&self, format: &OutputFormat, no_color: bool) -> Result<String> {
+    pub fn render(&self, format: &OutputFormat) -> Result<String> {
         match format {
-            OutputFormat::Table => Ok(self.render_table(no_color)),
+            OutputFormat::Table => Ok(self.render_table()),
             OutputFormat::Json => self.render_json(),
             OutputFormat::Csv => self.render_csv(),
         }
     }
 
-    fn render_table(&self, _no_color: bool) -> String {
+    fn render_table(&self) -> String {
         let mut table = Table::new();
         table
             .load_preset(UTF8_FULL_CONDENSED)

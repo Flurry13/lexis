@@ -11,13 +11,6 @@ pub struct Cli {
     #[arg(long, global = true, default_value = "table")]
     pub format: OutputFormat,
 
-    /// Suppress progress output
-    #[arg(long, global = true)]
-    pub quiet: bool,
-
-    /// Disable colored output
-    #[arg(long, global = true)]
-    pub no_color: bool,
 }
 
 #[derive(Subcommand)]
@@ -39,7 +32,7 @@ pub enum Commands {
         #[arg()]
         input: Option<PathBuf>,
 
-        /// N-gram size
+        /// N-gram size (must be >= 1)
         #[arg(short, default_value = "1")]
         n: usize,
 

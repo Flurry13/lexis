@@ -11,6 +11,7 @@ pub fn run(
     min_freq: Option<usize>,
     case_insensitive: bool,
 ) -> Result<ResultTable> {
+    anyhow::ensure!(n >= 1, "n-gram size must be at least 1");
     let words = tokenizer::words(text);
 
     let freqs = if case_insensitive {

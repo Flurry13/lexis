@@ -17,7 +17,7 @@ fn main() -> Result<()> {
             let inputs = input::resolve_input(input.as_ref(), *recursive)?;
             for (name, text) in &inputs {
                 let table = commands::stats::run(text.as_str()?, &name)?;
-                print!("{}", table.render(&cli.format, cli.no_color)?);
+                print!("{}", table.render(&cli.format)?);
             }
         }
         cli::Commands::Ngrams {
@@ -38,14 +38,14 @@ fn main() -> Result<()> {
                     *min_freq,
                     *case_insensitive,
                 )?;
-                print!("{}", table.render(&cli.format, cli.no_color)?);
+                print!("{}", table.render(&cli.format)?);
             }
         }
         cli::Commands::Tokens { input, recursive } => {
             let inputs = input::resolve_input(input.as_ref(), *recursive)?;
             for (name, text) in &inputs {
                 let table = commands::tokens::run(text.as_str()?, &name)?;
-                print!("{}", table.render(&cli.format, cli.no_color)?);
+                print!("{}", table.render(&cli.format)?);
             }
         }
     }
