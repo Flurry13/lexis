@@ -80,6 +80,20 @@ fn main() -> Result<()> {
                 print!("{}", table.render(&cli.format)?);
             }
         }
+        cli::Commands::Perplexity {
+            input,
+            order,
+            smoothing,
+            k,
+            recursive,
+        } => {
+            let inputs = input::resolve_input(input.as_ref(), *recursive)?;
+            for (name, text) in &inputs {
+                let table =
+                    commands::perplexity::run(text.as_str()?, &name, *order, smoothing, *k)?;
+                print!("{}", table.render(&cli.format)?);
+            }
+        }
         cli::Commands::Zipf {
             input,
             top,

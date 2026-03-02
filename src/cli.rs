@@ -94,6 +94,29 @@ pub enum Commands {
         recursive: bool,
     },
 
+    /// N-gram language model perplexity
+    Perplexity {
+        /// Input file(s) or directory
+        #[arg()]
+        input: Option<PathBuf>,
+
+        /// N-gram order
+        #[arg(short = 'n', long, default_value = "3")]
+        order: usize,
+
+        /// Smoothing method: none, laplace, backoff
+        #[arg(long, default_value = "laplace")]
+        smoothing: String,
+
+        /// Smoothing parameter k (for laplace/add-k)
+        #[arg(long, default_value = "1.0")]
+        k: f64,
+
+        /// Process directories recursively
+        #[arg(long)]
+        recursive: bool,
+    },
+
     /// Zipf's law analysis (rank-frequency distribution)
     Zipf {
         /// Input file(s) or directory

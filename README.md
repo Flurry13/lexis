@@ -29,11 +29,14 @@ txtstat stats corpus.txt
 # N-gram frequency (bigrams, top 20)
 txtstat ngrams -n 2 --top 20 corpus.txt
 
-# Token count (BPE tokens for GPT-style models)
-txtstat tokens --model gpt corpus.txt
-
 # Readability scores
 txtstat readability essay.txt
+
+# Shannon entropy analysis
+txtstat entropy corpus.txt
+
+# Zipf's law rank-frequency distribution
+txtstat zipf corpus.txt --plot
 
 # Pipe from stdin
 cat *.txt | txtstat stats
@@ -42,7 +45,7 @@ cat *.txt | txtstat stats
 txtstat stats ./documents/ --recursive
 
 # Output as JSON for downstream processing
-txtstat stats corpus.txt --format json | jq '.type_token_ratio'
+txtstat stats corpus.txt --format json | jq '.[0].value'
 ```
 
 ---
@@ -53,19 +56,25 @@ txtstat stats corpus.txt --format json | jq '.type_token_ratio'
 Full corpus statistics at a glance.
 
 ```
-$ txtstat stats moby-dick.txt
+$ txtstat stats prose.txt
 
-  txtstat · moby-dick.txt
-  ─────────────────────────────────────
-  Tokens (words)       215,864
-  Types (unique)        17,143
-  Sentences              9,852
-  Type-Token Ratio       0.0794
-  Hapax Legomena         8,231 (48.0%)
-  Avg Sentence Length    21.9 words
-  Entropy (H)            9.84 bits
-  ─────────────────────────────────────
+  txtstat · prose.txt
+┌─────────────────────┬────────────┐
+│ Metric              ┆      Value │
+╞═════════════════════╪════════════╡
+│ Tokens (words)      ┆        175 │
+│ Types (unique)      ┆         95 │
+│ Characters          ┆        805 │
+│ Sentences           ┆          6 │
+│ Type-Token Ratio    ┆     0.5429 │
+│ Hapax Legomena      ┆ 70 (73.7%) │
+│ Avg Sentence Length ┆ 29.2 words │
+└─────────────────────┴────────────┘
 ```
+
+Options:
+- `--stopwords <file|english>` — Filter stopwords (path to file, or `english` for built-in list)
+- `--recursive` — Process directories recursively
 
 ### `txtstat ngrams`
 N-gram frequency analysis with configurable N.
@@ -73,13 +82,16 @@ N-gram frequency analysis with configurable N.
 ```
 $ txtstat ngrams -n 2 --top 5 corpus.txt
 
-  Bigram              Freq     Rel %
-  ───────────────────────────────────
-  "of the"            4,521    2.09%
-  "in the"            2,884    1.34%
-  "to the"            1,743    0.81%
-  "on the"            1,290    0.60%
-  "and the"           1,105    0.51%
+  txtstat · corpus.txt
+┌────────────┬──────┬───────┐
+│ Bigram     ┆ Freq ┆ Rel % │
+╞════════════╪══════╪═══════╡
+│ "of the"   ┆    3 ┆ 1.72% │
+│ "in the"   ┆    2 ┆ 1.15% │
+│ "with a"   ┆    2 ┆ 1.15% │
+│ "the air"  ┆    1 ┆ 0.57% │
+│ "every"    ┆    1 ┆ 0.57% │
+└────────────┴──────┴───────┘
 ```
 
 Options:
@@ -87,97 +99,82 @@ Options:
 - `--top <K>` — Show top K results (default: 10)
 - `--min-freq <F>` — Minimum frequency threshold
 - `--case-insensitive` — Fold case before counting
-- `--stopwords <file>` — Exclude stopwords from a file
+- `--stopwords <file|english>` — Exclude stopwords
 
 ### `txtstat tokens`
 Count tokens using various tokenization schemes.
 
 ```
-$ txtstat tokens --model gpt chapter1.txt
+$ txtstat tokens chapter.txt
 
-  Tokenizer       Tokens
-  ─────────────────────────
-  Whitespace      12,483
-  BPE (GPT-4)     14,207
-  Sentences           542
-  Characters       71,029
+  txtstat · chapter.txt
+┌────────────┬────────┐
+│ Tokenizer  ┆ Tokens │
+╞════════════╪════════╡
+│ Whitespace ┆    175 │
+│ Sentences  ┆      6 │
+│ Characters ┆    805 │
+└────────────┴────────┘
 ```
-
-Options:
-- `--model <name>` — Tokenizer model: `whitespace`, `gpt`, `llama`, `bert`
-- `--cost` — Estimate API cost at current token pricing
 
 ### `txtstat readability`
 Readability and complexity metrics.
 
 ```
-$ txtstat readability paper.txt
+$ txtstat readability prose.txt
 
-  Metric                    Score    Grade
-  ──────────────────────────────────────────
-  Flesch-Kincaid Grade       12.1    College
-  Flesch Reading Ease        48.2    Difficult
-  Coleman-Liau Index         13.4    College
-  Gunning Fog Index          14.7    College
-  SMOG Index                 12.8    College
-  Avg Word Length             5.2    —
-  Avg Sentence Length         22.4   —
+  txtstat · prose.txt
+┌──────────────────────┬───────┬─────────────┐
+│ Metric               ┆ Score ┆       Grade │
+╞══════════════════════╪═══════╪═════════════╡
+│ Flesch-Kincaid Grade ┆ 12.73 ┆ High School │
+│ Flesch Reading Ease  ┆ 41.16 ┆   Difficult │
+│ Coleman-Liau Index   ┆ 13.82 ┆     College │
+│ Gunning Fog Index    ┆ 16.97 ┆     College │
+│ SMOG Index           ┆ 14.62 ┆     College │
+└──────────────────────┴───────┴─────────────┘
 ```
-
-### `txtstat perplexity`
-Calculate perplexity using n-gram language models.
-
-```
-$ txtstat perplexity --order 3 --train train.txt --eval test.txt
-
-  Model          Perplexity    Vocab
-  ────────────────────────────────────
-  Trigram         142.7        24,301
-  + Laplace       187.3        24,301
-  + Kneser-Ney    128.4        24,301
-```
-
-Options:
-- `--order <N>` — N-gram order (default: 3)
-- `--smoothing <method>` — `none`, `laplace`, `kneser-ney`, `stupid-backoff`
-- `--train <file>` — Training corpus
-- `--eval <file>` — Evaluation corpus
 
 ### `txtstat entropy`
 Information-theoretic analysis.
 
 ```
-$ txtstat entropy corpus.txt
+$ txtstat entropy prose.txt
 
-  Metric                     Value
-  ──────────────────────────────────
-  Unigram Entropy (H1)       9.84 bits
-  Bigram Entropy (H2)        7.21 bits
-  Trigram Entropy (H3)       4.56 bits
-  Entropy Rate (est.)        ~3.2 bits/word
-  Redundancy                 67.5%
-```
-
-### `txtstat lang`
-Language detection.
-
-```
-$ txtstat lang mystery.txt
-
-  Language     Confidence
-  ──────────────────────────
-  English       0.94
-  French        0.03
-  German        0.02
+  txtstat · prose.txt
+┌──────────────────────┬─────────┐
+│ Metric               ┆   Value │
+╞══════════════════════╪═════════╡
+│ H1 (Unigram Entropy) ┆  6.3184 │
+│ H2 (Bigram Entropy)  ┆  6.9658 │
+│ H3 (Trigram Entropy) ┆  6.9542 │
+│ Entropy Rate         ┆ -0.0116 │
+│ Vocabulary Size      ┆      95 │
+│ Redundancy           ┆  1.0018 │
+└──────────────────────┴─────────┘
 ```
 
 ### `txtstat zipf`
-Zipf's law analysis — outputs rank-frequency data for plotting.
+Zipf's law analysis — rank-frequency distribution with optional sparkline plot.
 
 ```
-$ txtstat zipf corpus.txt --format csv > zipf.csv
-$ txtstat zipf corpus.txt --plot  # outputs a terminal sparkline plot
+$ txtstat zipf corpus.txt --top 5
+
+  txtstat · corpus.txt
+┌──────┬──────┬───────────┐
+│ Rank ┆ Word ┆ Frequency │
+╞══════╪══════╪═══════════╡
+│ 1    ┆  the ┆         8 │
+│ 2    ┆   of ┆         6 │
+│ 3    ┆   to ┆         4 │
+│ 4    ┆ with ┆         4 │
+│ 5    ┆every ┆         3 │
+└──────┴──────┴───────────┘
 ```
+
+Options:
+- `--top <K>` — Show top K ranked words (default: 20)
+- `--plot` — Show sparkline plot instead of rank table
 
 ---
 
@@ -187,10 +184,6 @@ $ txtstat zipf corpus.txt --plot  # outputs a terminal sparkline plot
 |------|-------------|
 | `--format <fmt>` | Output format: `table` (default), `json`, `csv` |
 | `--recursive` | Process directories recursively |
-| `--parallel <N>` | Number of threads (default: auto) |
-| `--encoding <enc>` | Input encoding (default: UTF-8) |
-| `--quiet` | Suppress progress output |
-| `--no-color` | Disable colored output |
 
 ---
 
@@ -201,23 +194,9 @@ $ txtstat zipf corpus.txt --plot  # outputs a terminal sparkline plot
 cargo install txtstat
 
 # From source
-git clone https://github.com/yourusername/txtstat
+git clone https://github.com/Flurry13/txtstat
 cd txtstat
 cargo build --release
-```
-
-### Python Bindings (planned)
-
-```bash
-pip install txtstat
-```
-
-```python
-from txtstat import analyze
-
-result = analyze("path/to/corpus.txt")
-print(result.type_token_ratio)
-print(result.ngrams(n=2, top=10))
 ```
 
 ---
@@ -231,7 +210,6 @@ Benchmarks on a 1GB English text corpus (Apple M2, 8 cores):
 | Word count | 0.8s | 34s | **42x** |
 | Bigram freq | 1.2s | 89s | **74x** |
 | Readability | 0.9s | 41s | **45x** |
-| Perplexity | 2.1s | 156s | **74x** |
 
 *Benchmarks are targets — actual numbers will be validated during development.*
 
@@ -240,30 +218,30 @@ Benchmarks on a 1GB English text corpus (Apple M2, 8 cores):
 ## Roadmap
 
 ### v0.1.0 — Core CLI
-- [ ] `stats` command (word/type/sentence counts, TTR, hapax)
-- [ ] `ngrams` command (configurable N, top-K, frequency thresholds)
-- [ ] `tokens` command (whitespace tokenization)
-- [ ] JSON/CSV/table output formats
-- [ ] Stdin and file input
-- [ ] Parallel file processing with `rayon`
+- [x] `stats` command (word/type/sentence counts, TTR, hapax)
+- [x] `ngrams` command (configurable N, top-K, frequency thresholds)
+- [x] `tokens` command (whitespace tokenization)
+- [x] JSON/CSV/table output formats
+- [x] Stdin and file input
+- [x] Recursive directory processing
 
 ### v0.2.0 — Analysis
-- [ ] `readability` command (Flesch-Kincaid, Coleman-Liau, Gunning Fog, SMOG)
-- [ ] `entropy` command (unigram through trigram entropy)
-- [ ] `zipf` command with terminal plotting
-- [ ] Stopword filtering
-- [ ] Case folding options
+- [x] `readability` command (Flesch-Kincaid, Coleman-Liau, Gunning Fog, SMOG)
+- [x] `entropy` command (unigram through trigram entropy)
+- [x] `zipf` command with terminal plotting
+- [x] Stopword filtering (`--stopwords english` or `--stopwords path/to/file`)
+- [x] Case folding options
+- [x] Parallel processing with `rayon`
 
 ### v0.3.0 — Language Models
 - [ ] `perplexity` command with n-gram LM training
-- [ ] Smoothing methods (Laplace, Kneser-Ney, Stupid Backoff)
+- [ ] Smoothing methods (Laplace, Stupid Backoff)
 - [ ] `lang` command for language detection
-- [ ] BPE token counting (GPT, Llama, BERT tokenizers)
+- [ ] BPE token counting (GPT-3/GPT-4/GPT-4o tokenizers)
 
 ### v0.4.0 — Ecosystem
 - [ ] Python bindings via PyO3
 - [ ] WASM build for browser use
-- [ ] Recursive directory processing with glob patterns
 - [ ] Streaming mode for very large files
 - [ ] Shell completions (bash, zsh, fish)
 
@@ -302,9 +280,10 @@ MIT OR Apache-2.0 — your choice.
 ## Acknowledgments
 
 Built on the shoulders of giants:
-- [Hugging Face tokenizers](https://github.com/huggingface/tokenizers) — BPE/WordPiece/Unigram tokenization
 - [rayon](https://github.com/rayon-rs/rayon) — Data parallelism
 - [clap](https://github.com/clap-rs/clap) — CLI argument parsing
+- [comfy-table](https://github.com/nuber-io/comfy-table) — Beautiful terminal tables
+- [unicode-segmentation](https://github.com/unicode-rs/unicode-segmentation) — Unicode text segmentation
 
 ---
 
