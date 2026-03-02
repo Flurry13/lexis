@@ -3,7 +3,7 @@ members = [".", "txtstat-python", "txtstat-wasm"]
 
 [package]
 name = "txtstat"
-version = "0.3.0"
+version = "0.4.0"
 edition = "2021"
 description = "The ripgrep of text analysis. Blazing-fast CLI for corpus-level NLP statistics."
 license = "MIT OR Apache-2.0"

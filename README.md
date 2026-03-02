@@ -14,6 +14,7 @@ NLP researchers and data scientists currently cobble together slow Python script
 - **Composable** — Unix-friendly. Pipe text in, get structured output (JSON, CSV, or human-readable tables). Chain with `jq`, `awk`, or anything else.
 - **Batteries included** — N-grams, perplexity, readability, token counts, entropy, language detection — all in one binary.
 - **Zero setup** — `cargo install txtstat` and go. No Python environments, no dependency hell.
+- **Multi-platform** — Available as a CLI binary, Python package (`pip install txtstat`), or npm/WASM module.
 
 ---
 
@@ -52,6 +53,12 @@ cat *.txt | txtstat stats
 
 # Process an entire directory recursively
 txtstat stats ./documents/ --recursive
+
+# Stream processing from stdin (emits results per chunk)
+cat huge_corpus.txt | txtstat stats --stream --format json
+
+# Generate shell completions
+txtstat completions bash > ~/.bash_completions/txtstat
 
 # Output as JSON for downstream processing
 txtstat stats corpus.txt --format json | jq '.[0].value'
@@ -234,6 +241,36 @@ $ txtstat lang prose.txt
 └────────────┴─────────┘
 ```
 
+### `txtstat completions`
+Generate shell completions for bash, zsh, or fish.
+
+```bash
+# Bash
+txtstat completions bash > ~/.bash_completions/txtstat
+
+# Zsh
+txtstat completions zsh > ~/.zsh/completions/_txtstat
+
+# Fish
+txtstat completions fish > ~/.config/fish/completions/txtstat.fish
+```
+
+---
+
+## Streaming Mode
+
+Use `--stream` to process stdin incrementally, emitting cumulative results after each chunk:
+
+```bash
+# Stream stats with 500-line chunks
+cat huge_corpus.txt | txtstat stats --stream --chunk-lines 500 --format json
+```
+
+Supported commands: `stats`, `ngrams`, `entropy`. Output formats:
+- **JSON** — JSON Lines (one object per chunk)
+- **CSV** — Header once, rows per chunk
+- **Table** — Table per chunk with chunk number
+
 ---
 
 ## Global Options
@@ -242,19 +279,54 @@ $ txtstat lang prose.txt
 |------|-------------|
 | `--format <fmt>` | Output format: `table` (default), `json`, `csv` |
 | `--recursive` | Process directories recursively |
+| `--stream` | Process stdin as a continuous stream, emitting results per chunk |
+| `--chunk-lines <N>` | Lines per chunk in streaming mode (default: 1000) |
 
 ---
 
 ## Installation
 
 ```bash
-# From crates.io
+# CLI (from crates.io)
 cargo install txtstat
 
-# From source
+# CLI (from source)
 git clone https://github.com/Flurry13/txtstat
 cd txtstat
 cargo build --release
+
+# Python
+pip install txtstat
+
+# JavaScript/WASM
+npm install txtstat
+```
+
+### Python Usage
+
+```python
+import txtstat
+
+result = txtstat.stats(text="hello world hello")
+# {"tokens": 3, "types": 2, "sentences": 1, ...}
+
+result = txtstat.ngrams("corpus.txt", n=2, top=10)
+# [{"ngram": "of the", "frequency": 4521, "relative_pct": 2.09}, ...]
+
+result = txtstat.lang(text="Bonjour le monde")
+# {"language": "Français", "code": "fra", "script": "Latin", "confidence": 0.99}
+```
+
+### JavaScript/WASM Usage
+
+```javascript
+import { stats, ngrams, lang } from 'txtstat';
+
+const result = stats("The quick brown fox...");
+// { tokens: 5, types: 5, sentences: 1, ... }
+
+const detected = lang("Bonjour le monde");
+// { language: "Français", code: "fra", script: "Latin", confidence: 0.99 }
 ```
 
 ---
@@ -298,10 +370,10 @@ Benchmarks on a 1GB English text corpus (Apple M2, 8 cores):
 - [x] BPE token counting (GPT-3/GPT-4/GPT-4o tokenizers)
 
 ### v0.4.0 — Ecosystem
-- [ ] Python bindings via PyO3
-- [ ] WASM build for browser use
-- [ ] Streaming mode for very large files
-- [ ] Shell completions (bash, zsh, fish)
+- [x] Python bindings via PyO3
+- [x] WASM build for browser use
+- [x] Streaming mode for very large files
+- [x] Shell completions (bash, zsh, fish)
 
 ### Future
 - [ ] Custom vocabulary / dictionary support
@@ -344,6 +416,8 @@ Built on the shoulders of giants:
 - [unicode-segmentation](https://github.com/unicode-rs/unicode-segmentation) — Unicode text segmentation
 - [whatlang](https://github.com/grstreten/whatlang-rs) — Language detection
 - [tiktoken-rs](https://github.com/zurawiki/tiktoken-rs) — BPE tokenization for GPT models
+- [PyO3](https://github.com/PyO3/pyo3) — Rust bindings for Python
+- [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) — Rust to WebAssembly interop
 
 ---
 
