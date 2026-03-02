@@ -1,4 +1,4 @@
-use lexis::analysis::readability;
+use corpa::analysis::readability;
 
 #[test]
 fn test_compute_metrics_basic() {

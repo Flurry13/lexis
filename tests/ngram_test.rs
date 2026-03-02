@@ -1,4 +1,4 @@
-use lexis::analysis::ngram;
+use corpa::analysis::ngram;
 
 #[test]
 fn test_bigrams() {

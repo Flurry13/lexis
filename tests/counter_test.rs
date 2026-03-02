@@ -1,4 +1,4 @@
-use lexis::analysis::counter;
+use corpa::analysis::counter;
 
 #[test]
 fn test_word_frequencies() {

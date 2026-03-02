@@ -1,6 +1,6 @@
 <div align="center">
 
-# lexis
+# corpa
 
 **Blazing-fast text analysis for the command line, Python, and the browser.**
 
@@ -27,27 +27,27 @@ A unified tool for corpus-level NLP statistics — n-gram frequencies, readabili
 ### CLI
 
 ```bash
-cargo install lexis
+cargo install corpa
 ```
 
 Or build from source:
 
 ```bash
-git clone https://github.com/Flurry13/lexis
-cd lexis
+git clone https://github.com/Flurry13/corpa
+cd corpa
 cargo build --release
 ```
 
 ### Python
 
 ```bash
-pip install lexis
+pip install corpa
 ```
 
 ### JavaScript / WASM
 
 ```bash
-npm install lexis
+npm install corpa
 ```
 
 ---
@@ -57,14 +57,14 @@ npm install lexis
 ### CLI
 
 ```bash
-lexis stats corpus.txt
-lexis ngrams -n 2 --top 20 corpus.txt
-lexis readability essay.txt
-lexis entropy corpus.txt
-lexis perplexity corpus.txt --smoothing laplace
-lexis lang mystery.txt
-lexis tokens corpus.txt --model gpt4
-lexis zipf corpus.txt --top 10
+corpa stats corpus.txt
+corpa ngrams -n 2 --top 20 corpus.txt
+corpa readability essay.txt
+corpa entropy corpus.txt
+corpa perplexity corpus.txt --smoothing laplace
+corpa lang mystery.txt
+corpa tokens corpus.txt --model gpt4
+corpa zipf corpus.txt --top 10
 ```
 
 All commands accept file paths, directories (with `--recursive`), or stdin. Output format is controlled with `--format` (`table`, `json`, `csv`).
@@ -72,15 +72,15 @@ All commands accept file paths, directories (with `--recursive`), or stdin. Outp
 ### Python
 
 ```python
-import lexis
+import corpa
 
-lexis.stats(text="The quick brown fox jumps over the lazy dog.")
+corpa.stats(text="The quick brown fox jumps over the lazy dog.")
 # {'tokens': 9, 'types': 8, 'sentences': 1, 'type_token_ratio': 0.8889, ...}
 
-lexis.ngrams("corpus.txt", n=2, top=10)
+corpa.ngrams("corpus.txt", n=2, top=10)
 # [{'ngram': 'of the', 'frequency': 4521, 'relative_pct': 2.09}, ...]
 
-lexis.lang(text="Bonjour le monde")
+corpa.lang(text="Bonjour le monde")
 # {'language': 'Français', 'code': 'fra', 'script': 'Latin', 'confidence': 0.99}
 ```
 
@@ -89,7 +89,7 @@ All functions accept a file path as the first argument or a `text=` keyword argu
 ### JavaScript / WASM
 
 ```javascript
-import { stats, lang, entropy } from 'lexis';
+import { stats, lang, entropy } from 'corpa';
 
 const result = stats("The quick brown fox jumps over the lazy dog.");
 // { tokens: 9, types: 8, sentences: 1, type_token_ratio: 0.8889, ... }
@@ -119,9 +119,9 @@ All functions accept text strings directly and return plain JavaScript objects.
 ### Example Output
 
 ```
-$ lexis stats prose.txt
+$ corpa stats prose.txt
 
-  lexis · prose.txt
+  corpa · prose.txt
 ┌─────────────────────┬────────────┐
 │ Metric              ┆      Value │
 ╞═════════════════════╪════════════╡
@@ -136,9 +136,9 @@ $ lexis stats prose.txt
 ```
 
 ```
-$ lexis readability prose.txt
+$ corpa readability prose.txt
 
-  lexis · prose.txt
+  corpa · prose.txt
 ┌──────────────────────┬───────┬─────────────┐
 │ Metric               ┆ Score ┆       Grade │
 ╞══════════════════════╪═══════╪═════════════╡
@@ -151,9 +151,9 @@ $ lexis readability prose.txt
 ```
 
 ```
-$ lexis tokens prose.txt --model all
+$ corpa tokens prose.txt --model all
 
-  lexis · prose.txt
+  corpa · prose.txt
 ┌──────────────┬────────┐
 │ Tokenizer    ┆ Tokens │
 ╞══════════════╪════════╡
@@ -173,7 +173,7 @@ $ lexis tokens prose.txt --model all
 The `--stream` flag enables incremental processing of unbounded stdin, emitting cumulative results after each chunk. Chunk size is configurable with `--chunk-lines` (default: 1000).
 
 ```bash
-cat huge_corpus.txt | lexis stats --stream --chunk-lines 500 --format json
+cat huge_corpus.txt | corpa stats --stream --chunk-lines 500 --format json
 ```
 
 Supported commands: `stats`, `ngrams`, `entropy`.
@@ -201,7 +201,7 @@ Supported commands: `stats`, `ngrams`, `entropy`.
 
 Benchmarks on a 1GB English text corpus (Apple M2, 8 cores):
 
-| Command | lexis | Python (NLTK) | Speedup |
+| Command | corpa | Python (NLTK) | Speedup |
 |---------|---------|---------------|---------|
 | Word count | 0.8s | 34s | **42x** |
 | Bigram frequency | 1.2s | 89s | **74x** |

@@ -1,8 +1,8 @@
 use std::io::Write;
 use std::process::{Command, Stdio};
 
-fn lexis_stdin(args: &[&str], input: &str) -> String {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_lexis"))
+fn corpa_stdin(args: &[&str], input: &str) -> String {
+    let mut child = Command::new(env!("CARGO_BIN_EXE_corpa"))
         .args(args)
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())
@@ -21,7 +21,7 @@ fn lexis_stdin(args: &[&str], input: &str) -> String {
 #[test]
 fn test_stream_stats_json() {
     let input = "hello world hello\nfoo bar baz\n".repeat(100);
-    let out = lexis_stdin(
+    let out = corpa_stdin(
         &["stats", "--stream", "--chunk-lines", "50", "--format", "json"],
         &input,
     );
@@ -40,7 +40,7 @@ fn test_stream_stats_json() {
 
 #[test]
 fn test_stream_unsupported_command() {
-    let mut child = Command::new(env!("CARGO_BIN_EXE_lexis"))
+    let mut child = Command::new(env!("CARGO_BIN_EXE_corpa"))
         .args(&["readability", "--stream"])
         .stdin(Stdio::piped())
         .stdout(Stdio::piped())

@@ -1,8 +1,8 @@
 [workspace]
-members = [".", "lexis-python", "lexis-wasm"]
+members = [".", "corpa-python", "corpa-wasm"]
 
 [package]
-name = "lexis"
+name = "corpa"
 version = "0.4.0"
 edition = "2021"
 description = "The ripgrep of text analysis. Blazing-fast CLI for corpus-level NLP statistics."
@@ -15,8 +15,8 @@ categories = ["command-line-utilities", "text-processing"]
 exclude = [
     ".worktrees/",
     ".github/",
-    "lexis-python/",
-    "lexis-wasm/",
+    "corpa-python/",
+    "corpa-wasm/",
     "docs/",
     "tasks/",
     "tests/fixtures/",

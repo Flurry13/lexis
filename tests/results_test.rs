@@ -1,4 +1,4 @@
-use lexis::results;
+use corpa::results;
 
 #[test]
 fn test_compute_stats() {

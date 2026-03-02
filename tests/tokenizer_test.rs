@@ -1,4 +1,4 @@
-use lexis::analysis::tokenizer;
+use corpa::analysis::tokenizer;
 
 #[test]
 fn test_word_tokenize_simple() {
