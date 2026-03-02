@@ -1,7 +1,9 @@
 use crate::analysis::{ngram, tokenizer};
 use crate::output::ResultTable;
 use crate::utils::format::format_num;
+use crate::utils::stopwords as sw_util;
 use anyhow::Result;
+use rustc_hash::FxHashSet;
 
 pub fn run(
     text: &str,
@@ -10,16 +12,26 @@ pub fn run(
     top: usize,
     min_freq: Option<usize>,
     case_insensitive: bool,
+    stopwords: Option<&FxHashSet<String>>,
 ) -> Result<ResultTable> {
     anyhow::ensure!(n >= 1, "n-gram size must be at least 1");
     let words = tokenizer::words(text);
 
+    // Apply stopword filtering before n-gram extraction
+    let filtered: Vec<&str>;
+    let words_ref = if let Some(sw) = stopwords {
+        filtered = sw_util::filter_words(&words, sw);
+        &filtered
+    } else {
+        &words
+    };
+
     let freqs = if case_insensitive {
-        let lowered: Vec<String> = words.iter().map(|w| w.to_lowercase()).collect();
+        let lowered: Vec<String> = words_ref.iter().map(|w| w.to_lowercase()).collect();
         let refs: Vec<&str> = lowered.iter().map(|s| s.as_str()).collect();
         ngram::ngram_frequencies(&refs, n)
     } else {
-        ngram::ngram_frequencies(&words, n)
+        ngram::ngram_frequencies(words_ref, n)
     };
 
     let total: usize = freqs.values().sum();

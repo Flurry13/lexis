@@ -21,6 +21,10 @@ pub enum Commands {
         #[arg()]
         input: Option<PathBuf>,
 
+        /// Filter stopwords (path to file, or "english" for built-in list)
+        #[arg(long)]
+        stopwords: Option<String>,
+
         /// Process directories recursively
         #[arg(long)]
         recursive: bool,
@@ -48,6 +52,10 @@ pub enum Commands {
         #[arg(long)]
         case_insensitive: bool,
 
+        /// Filter stopwords (path to file, or "english" for built-in list)
+        #[arg(long)]
+        stopwords: Option<String>,
+
         /// Process directories recursively
         #[arg(long)]
         recursive: bool,
@@ -58,6 +66,47 @@ pub enum Commands {
         /// Input file(s) or directory
         #[arg()]
         input: Option<PathBuf>,
+
+        /// Process directories recursively
+        #[arg(long)]
+        recursive: bool,
+    },
+
+    /// Readability scoring (Flesch-Kincaid, Coleman-Liau, Gunning Fog, SMOG)
+    Readability {
+        /// Input file(s) or directory
+        #[arg()]
+        input: Option<PathBuf>,
+
+        /// Process directories recursively
+        #[arg(long)]
+        recursive: bool,
+    },
+
+    /// Shannon entropy analysis
+    Entropy {
+        /// Input file(s) or directory
+        #[arg()]
+        input: Option<PathBuf>,
+
+        /// Process directories recursively
+        #[arg(long)]
+        recursive: bool,
+    },
+
+    /// Zipf's law analysis (rank-frequency distribution)
+    Zipf {
+        /// Input file(s) or directory
+        #[arg()]
+        input: Option<PathBuf>,
+
+        /// Show top K ranked words
+        #[arg(long, default_value = "20")]
+        top: usize,
+
+        /// Show sparkline plot instead of rank table
+        #[arg(long)]
+        plot: bool,
 
         /// Process directories recursively
         #[arg(long)]

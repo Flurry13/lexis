@@ -117,3 +117,121 @@ fn test_stdin_input() {
     let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
     assert!(!parsed.as_array().unwrap().is_empty());
 }
+
+// --- v0.2.0 integration tests ---
+
+#[test]
+fn test_readability_json() {
+    let out = txtstat(&["readability", "tests/fixtures/prose.txt", "--format", "json"]);
+    let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
+    let records = parsed.as_array().unwrap();
+    assert_eq!(records.len(), 5, "expected 5 readability metrics");
+    let metrics: Vec<&str> = records.iter().map(|r| r["metric"].as_str().unwrap()).collect();
+    assert!(metrics.contains(&"Flesch-Kincaid Grade"));
+    assert!(metrics.contains(&"Flesch Reading Ease"));
+    assert!(metrics.contains(&"Coleman-Liau Index"));
+    assert!(metrics.contains(&"Gunning Fog Index"));
+    assert!(metrics.contains(&"SMOG Index"));
+}
+
+#[test]
+fn test_readability_table() {
+    let out = txtstat(&["readability", "tests/fixtures/prose.txt"]);
+    assert!(out.contains("Flesch-Kincaid Grade"));
+    assert!(out.contains("Score"));
+    assert!(out.contains("Grade"));
+}
+
+#[test]
+fn test_entropy_json() {
+    let out = txtstat(&["entropy", "tests/fixtures/prose.txt", "--format", "json"]);
+    let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
+    let records = parsed.as_array().unwrap();
+    assert!(records.len() >= 6, "expected at least 6 entropy rows");
+}
+
+#[test]
+fn test_zipf_json() {
+    let out = txtstat(&["zipf", "tests/fixtures/prose.txt", "--format", "json", "--top", "5"]);
+    let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
+    let records = parsed.as_array().unwrap();
+    assert!(records.len() >= 5, "expected at least 5 zipf rows, got {}", records.len());
+}
+
+#[test]
+fn test_zipf_plot() {
+    let out = txtstat(&["zipf", "--plot", "tests/fixtures/prose.txt"]);
+    assert!(out.contains("Distribution"));
+    assert!(out.contains("Zipf Exponent"));
+}
+
+#[test]
+fn test_ngrams_with_stopwords() {
+    let out = txtstat(&[
+        "ngrams",
+        "--stopwords",
+        "english",
+        "tests/fixtures/small.txt",
+        "--format",
+        "json",
+    ]);
+    let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
+    let records = parsed.as_array().unwrap();
+    for record in records {
+        let word = record["unigram"].as_str().unwrap();
+        let lower = word.trim_matches('"').to_lowercase();
+        assert!(
+            lower != "the" && lower != "on" && lower != "in" && lower != "was",
+            "stopword '{}' should be filtered",
+            lower
+        );
+    }
+}
+
+#[test]
+fn test_stats_with_stopwords() {
+    let out = txtstat(&[
+        "stats",
+        "--stopwords",
+        "english",
+        "tests/fixtures/small.txt",
+        "--format",
+        "json",
+    ]);
+    let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
+    let records = parsed.as_array().unwrap();
+    let sw_row = records
+        .iter()
+        .find(|r| r.get("metric").and_then(|m| m.as_str()) == Some("Stopwords Removed"));
+    assert!(sw_row.is_some(), "should have Stopwords Removed row");
+    let removed: usize = sw_row.unwrap()["value"]
+        .as_str()
+        .unwrap()
+        .replace(',', "")
+        .parse()
+        .unwrap();
+    assert!(removed > 0, "should have removed some stopwords");
+}
+
+#[test]
+fn test_ngrams_with_custom_stopwords_file() {
+    let out = txtstat(&[
+        "ngrams",
+        "--stopwords",
+        "tests/fixtures/stopwords_test.txt",
+        "tests/fixtures/small.txt",
+        "--format",
+        "json",
+    ]);
+    let parsed: serde_json::Value = serde_json::from_str(&out).unwrap();
+    let records = parsed.as_array().unwrap();
+    for record in records {
+        let word = record["unigram"].as_str().unwrap();
+        let lower = word.trim_matches('"').to_lowercase();
+        assert!(
+            lower != "cat" && lower != "dog" && lower != "the",
+            "custom stopword '{}' should be filtered",
+            lower
+        );
+    }
+}
