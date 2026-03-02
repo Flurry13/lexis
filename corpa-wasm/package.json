@@ -1,5 +1,5 @@
 {
-  "name": "corpa",
+  "name": "@flurry13/corpa",
   "version": "0.4.0",
   "description": "Blazing-fast text analysis powered by Rust, compiled to WebAssembly.",
   "main": "corpa.js",

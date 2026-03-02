@@ -47,7 +47,7 @@ pip install corpa
 ### JavaScript / WASM
 
 ```bash
-npm install corpa
+npm install @flurry13/corpa
 ```
 
 ---
@@ -89,7 +89,7 @@ All functions accept a file path as the first argument or a `text=` keyword argu
 ### JavaScript / WASM
 
 ```javascript
-import { stats, lang, entropy } from 'corpa';
+import { stats, lang, entropy } from '@flurry13/corpa';
 
 const result = stats("The quick brown fox jumps over the lazy dog.");
 // { tokens: 9, types: 8, sentences: 1, type_token_ratio: 0.8889, ... }
