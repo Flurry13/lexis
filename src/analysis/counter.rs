@@ -82,16 +82,6 @@ fn split_at_word_boundaries(text: &str, n: usize) -> Vec<&str> {
     chunks
 }
 
-/// Count word frequencies case-insensitively.
-pub fn word_frequencies_case_insensitive(text: &str) -> FxHashMap<String, usize> {
-    let words = tokenizer::words(text);
-    let mut freqs = FxHashMap::default();
-    for word in words {
-        *freqs.entry(word.to_lowercase()).or_insert(0) += 1;
-    }
-    freqs
-}
-
 /// Return top N entries sorted by frequency (descending), then alphabetically.
 pub fn top_n(freqs: &FxHashMap<String, usize>, n: usize) -> Vec<(&str, usize)> {
     let mut entries: Vec<(&str, usize)> = freqs.iter().map(|(k, &v)| (k.as_str(), v)).collect();
