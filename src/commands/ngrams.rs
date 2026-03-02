@@ -1,5 +1,6 @@
 use crate::analysis::{ngram, tokenizer};
 use crate::output::ResultTable;
+use crate::utils::format::format_num;
 use anyhow::Result;
 
 pub fn run(
@@ -53,16 +54,4 @@ pub fn run(
     }
 
     Ok(table)
-}
-
-fn format_num(n: usize) -> String {
-    let s = n.to_string();
-    let mut result = String::new();
-    for (i, ch) in s.chars().rev().enumerate() {
-        if i > 0 && i % 3 == 0 {
-            result.push(',');
-        }
-        result.push(ch);
-    }
-    result.chars().rev().collect()
 }

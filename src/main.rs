@@ -3,6 +3,7 @@ mod cli;
 mod commands;
 mod input;
 mod output;
+mod utils;
 
 use anyhow::Result;
 use clap::Parser;
