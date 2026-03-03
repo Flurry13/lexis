@@ -2,3 +2,5 @@
 .DS_Store
 CLAUDE.md
 .worktrees
+corpa-python/
+corpa-wasm/
