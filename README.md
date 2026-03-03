@@ -242,7 +242,7 @@ cargo bench           # Run benchmarks
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).
+This project is dual-licensed under [MIT](LICENSE-MIT) or [Apache-2.0](LICENSE-APACHE), at your option.
 
 ---
 
