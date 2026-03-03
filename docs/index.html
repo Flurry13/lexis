@@ -5,6 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>corpa — The ripgrep of text analysis</title>
   <meta name="description" content="Blazing-fast text analysis for the command line, Python, and the browser. N-grams, readability, entropy, language detection, and more.">
+  <meta property="og:title" content="corpa — The ripgrep of text analysis">
+  <meta property="og:description" content="Blazing-fast text analysis for the command line, Python, and the browser.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://flurry13.github.io/corpa">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230a0e18'/%3E%3Ctext x='16' y='23' text-anchor='middle' font-family='Georgia,serif' font-size='20' font-weight='300' fill='%23c9993a'%3Ec%3C/text%3E%3C/svg%3E">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;1,300&family=DM+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -44,11 +49,7 @@
       overflow-x: hidden;
     }
 
-    ::selection {
-      background: rgba(201, 153, 58, 0.3);
-      color: #fff;
-    }
-
+    ::selection { background: rgba(201, 153, 58, 0.3); color: #fff; }
     ::-webkit-scrollbar { width: 8px; }
     ::-webkit-scrollbar-track { background: var(--bg-deep); }
     ::-webkit-scrollbar-thumb { background: var(--bg-card); border-radius: 4px; }
@@ -56,6 +57,14 @@
 
     a { color: var(--accent-blue); text-decoration: none; transition: color 0.2s; }
     a:hover { color: var(--accent-gold-bright); }
+
+    /* Grain texture overlay */
+    .grain {
+      position: fixed; inset: 0; z-index: 9999;
+      pointer-events: none; opacity: 0.028;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+    }
 
     /* ─── Nav ─────────────────────────────────────────── */
     nav {
@@ -73,50 +82,39 @@
     }
     .nav-logo {
       font-family: var(--font-display);
-      font-size: 1.4rem;
-      font-weight: 600;
+      font-size: 1.4rem; font-weight: 600;
       color: var(--accent-gold);
       letter-spacing: 0.04em;
     }
     .nav-links { display: flex; gap: 2rem; align-items: center; }
     .nav-links a {
-      font-size: 0.85rem;
-      font-weight: 500;
+      font-size: 0.85rem; font-weight: 500;
       color: var(--text-secondary);
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
+      letter-spacing: 0.03em; text-transform: uppercase;
       transition: color 0.2s;
     }
     .nav-links a:hover { color: var(--text-primary); }
-    .nav-links a.nav-github {
-      display: flex; align-items: center; gap: 0.4rem;
-    }
+    .nav-links a.nav-github { display: flex; align-items: center; gap: 0.4rem; }
 
     /* ─── Layout ──────────────────────────────────────── */
     .container { max-width: 1100px; margin: 0 auto; padding: 0 2rem; }
     section { padding: 7rem 0; position: relative; }
-
     .section-header {
       display: flex; align-items: baseline; gap: 1rem;
       margin-bottom: 3.5rem;
     }
     .section-number {
-      font-family: var(--font-mono);
-      font-size: 0.75rem;
-      color: var(--accent-gold);
-      opacity: 0.6;
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--accent-gold); opacity: 0.6;
       letter-spacing: 0.05em;
     }
     .section-header h2 {
-      font-family: var(--font-display);
-      font-size: 2.5rem;
-      font-weight: 300;
-      letter-spacing: 0.02em;
+      font-family: var(--font-display); font-size: 2.5rem;
+      font-weight: 300; letter-spacing: 0.02em;
       color: var(--text-primary);
     }
     .section-divider {
-      width: 100%;
-      height: 1px;
+      width: 100%; height: 1px;
       background: linear-gradient(90deg, var(--border-gold), transparent 80%);
     }
 
@@ -126,13 +124,11 @@
       display: flex; align-items: center; justify-content: center;
       text-align: center;
       padding: 8rem 2rem 6rem;
-      position: relative;
-      overflow: hidden;
+      position: relative; overflow: hidden;
     }
     .hero::before {
       content: '';
-      position: absolute;
-      top: 15%; left: 50%;
+      position: absolute; top: 15%; left: 50%;
       transform: translateX(-50%);
       width: 700px; height: 500px;
       background: radial-gradient(ellipse, rgba(201, 153, 58, 0.06) 0%, transparent 70%);
@@ -140,8 +136,7 @@
     }
     .hero::after {
       content: '';
-      position: absolute;
-      bottom: 0; left: 0; right: 0;
+      position: absolute; bottom: 0; left: 0; right: 0;
       height: 200px;
       background: linear-gradient(to top, var(--bg-deep), transparent);
       pointer-events: none;
@@ -149,58 +144,49 @@
     .hero-content { position: relative; z-index: 1; }
     .hero-badge {
       display: inline-block;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 500;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
+      font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500;
+      letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--accent-gold);
       border: 1px solid var(--border-gold);
-      padding: 0.35rem 1rem;
-      border-radius: 2px;
+      padding: 0.35rem 1rem; border-radius: 2px;
       margin-bottom: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.2s forwards;
+      opacity: 0; animation: fadeUp 0.8s 0.2s forwards;
     }
     .hero-title {
       font-family: var(--font-display);
       font-size: clamp(4rem, 10vw, 8rem);
-      font-weight: 300;
-      letter-spacing: 0.03em;
-      line-height: 1;
+      font-weight: 300; letter-spacing: 0.03em; line-height: 1;
       margin-bottom: 1.5rem;
       background: linear-gradient(135deg, var(--text-primary) 30%, var(--accent-gold) 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.4s forwards;
+      opacity: 0; animation: fadeUp 0.8s 0.4s forwards;
     }
     .hero-tagline {
       font-family: var(--font-display);
       font-size: clamp(1.1rem, 2.5vw, 1.5rem);
-      font-weight: 300;
-      font-style: italic;
+      font-weight: 300; font-style: italic;
       color: var(--text-secondary);
-      margin-bottom: 3rem;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.6s forwards;
+      margin-bottom: 1rem;
+      opacity: 0; animation: fadeUp 0.8s 0.6s forwards;
+    }
+    .hero-desc {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      max-width: 520px; margin: 0 auto 3rem;
+      line-height: 1.6;
+      opacity: 0; animation: fadeUp 0.8s 0.7s forwards;
     }
     .hero-install {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.75rem;
+      display: inline-flex; align-items: center; gap: 0.75rem;
       background: var(--bg-surface);
       border: 1px solid var(--border);
       border-radius: 6px;
       padding: 0.8rem 1.2rem;
-      font-family: var(--font-mono);
-      font-size: 0.9rem;
-      margin-bottom: 2.5rem;
-      cursor: pointer;
+      font-family: var(--font-mono); font-size: 0.9rem;
+      margin-bottom: 2.5rem; cursor: pointer;
       transition: border-color 0.2s, background 0.2s;
-      opacity: 0;
-      animation: fadeUp 0.8s 0.8s forwards;
+      opacity: 0; animation: fadeUp 0.8s 0.8s forwards;
     }
     .hero-install:hover {
       border-color: var(--accent-gold);
@@ -211,34 +197,24 @@
     .hero-install .arg { color: var(--text-primary); }
     .hero-install .copy-icon {
       color: var(--text-muted);
-      transition: color 0.2s;
-      flex-shrink: 0;
+      transition: color 0.2s; flex-shrink: 0;
     }
     .hero-install:hover .copy-icon { color: var(--accent-gold); }
     .hero-install .copied-text {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
-      color: var(--accent-green);
-      display: none;
+      font-family: var(--font-body); font-size: 0.75rem;
+      color: var(--accent-green); display: none;
     }
     .badges {
-      display: flex;
-      gap: 0.75rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.8s 1s forwards;
+      display: flex; gap: 0.75rem;
+      justify-content: center; flex-wrap: wrap;
+      opacity: 0; animation: fadeUp 0.8s 1s forwards;
     }
     .badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      font-size: 0.78rem;
-      font-weight: 500;
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.78rem; font-weight: 500;
       color: var(--text-secondary);
       padding: 0.35rem 0.8rem;
-      border: 1px solid var(--border);
-      border-radius: 4px;
+      border: 1px solid var(--border); border-radius: 4px;
       transition: border-color 0.2s, color 0.2s;
     }
     .badge:hover { border-color: var(--text-muted); color: var(--text-primary); }
@@ -247,14 +223,14 @@
     /* ─── Features ────────────────────────────────────── */
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 1.5rem;
     }
     .feature-card {
+      grid-column: span 2;
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
+      border-radius: 8px; padding: 2rem;
       transition: border-color 0.3s, transform 0.3s, background 0.3s;
     }
     .feature-card:hover {
@@ -262,26 +238,23 @@
       background: var(--bg-card);
       transform: translateY(-2px);
     }
+    .feature-card:nth-child(4) { grid-column: 2 / span 2; }
+    .feature-card:nth-child(5) { grid-column: 4 / span 2; }
     .feature-icon {
       width: 36px; height: 36px;
       display: flex; align-items: center; justify-content: center;
       background: rgba(201, 153, 58, 0.08);
       border: 1px solid var(--border-gold);
-      border-radius: 6px;
-      margin-bottom: 1.2rem;
-      color: var(--accent-gold);
-      font-size: 1.1rem;
+      border-radius: 6px; margin-bottom: 1.2rem;
+      color: var(--accent-gold); font-size: 1.1rem;
     }
     .feature-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.35rem;
-      font-weight: 500;
-      margin-bottom: 0.6rem;
+      font-family: var(--font-display); font-size: 1.35rem;
+      font-weight: 500; margin-bottom: 0.6rem;
       letter-spacing: 0.01em;
     }
     .feature-card p {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
+      font-size: 0.9rem; color: var(--text-secondary);
       line-height: 1.65;
     }
 
@@ -289,46 +262,30 @@
     .terminal {
       background: #0d1117;
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 10px;
-      overflow: hidden;
-      box-shadow:
-        0 4px 24px rgba(0, 0, 0, 0.4),
-        0 0 0 1px rgba(255, 255, 255, 0.03);
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
     }
     .terminal-header {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       padding: 0.75rem 1rem;
       background: rgba(255, 255, 255, 0.03);
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
     }
     .terminal-dots { display: flex; gap: 6px; margin-right: 1rem; }
-    .terminal-dots span {
-      width: 10px; height: 10px;
-      border-radius: 50%;
-    }
+    .terminal-dots span { width: 10px; height: 10px; border-radius: 50%; }
     .dot-red { background: #ff5f57; }
     .dot-yellow { background: #febc2e; }
     .dot-green { background: #28c840; }
     .terminal-title {
-      font-family: var(--font-body);
-      font-size: 0.75rem;
+      font-family: var(--font-body); font-size: 0.75rem;
       color: var(--text-muted);
-      flex: 1;
-      text-align: center;
-      margin-right: 3rem;
+      flex: 1; text-align: center; margin-right: 3rem;
     }
-    .terminal-body {
-      padding: 1.5rem;
-      overflow-x: auto;
-    }
+    .terminal-body { padding: 1.5rem; overflow-x: auto; }
     .terminal-body pre {
-      font-family: var(--font-mono);
-      font-size: 0.82rem;
-      line-height: 1.6;
-      color: #c9d1d9;
-      white-space: pre;
-      margin: 0;
+      font-family: var(--font-mono); font-size: 0.82rem;
+      line-height: 1.6; color: #c9d1d9;
+      white-space: pre; margin: 0;
     }
     .terminal-body .t-prompt { color: #e879a8; }
     .terminal-body .t-cmd { color: #4ade80; }
@@ -342,12 +299,70 @@
     .terminal-body .t-json-key { color: #6aadcf; }
     .terminal-body .t-json-str { color: #c9993a; }
 
-    .quickstart-subtitle {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      max-width: 560px;
+    /* ─── Code block (Python) ────────────────────────── */
+    .code-block {
+      background: #0d1117;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 10px; overflow: hidden;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(255, 255, 255, 0.03);
     }
+    .code-header {
+      display: flex; align-items: center;
+      padding: 0.75rem 1rem;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+    .code-header-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-gold); margin-right: 0.75rem;
+    }
+    .code-header-title {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .code-body { padding: 1.5rem; overflow-x: auto; }
+    .code-body pre {
+      font-family: var(--font-mono); font-size: 0.82rem;
+      line-height: 1.7; color: #c9d1d9;
+      white-space: pre; margin: 0;
+    }
+    .code-body .c-kw { color: #e879a8; }
+    .code-body .c-fn { color: #6aadcf; }
+    .code-body .c-str { color: #c9993a; }
+    .code-body .c-num { color: #4ade80; }
+    .code-body .c-comment { color: #4a5568; font-style: italic; }
+    .code-body .c-var { color: #e4e7f0; }
+    .code-body .c-op { color: #8390a8; }
+
+    /* ─── Quickstart tabs ────────────────────────────── */
+    .quickstart-subtitle {
+      font-size: 0.95rem; color: var(--text-secondary);
+      margin-bottom: 2rem; max-width: 560px;
+    }
+    .qs-tabs {
+      display: flex; gap: 0; margin-bottom: -1px;
+      position: relative; z-index: 1;
+    }
+    .qs-tab {
+      font-family: var(--font-mono); font-size: 0.78rem;
+      font-weight: 500; letter-spacing: 0.04em;
+      color: var(--text-muted);
+      background: transparent;
+      border: 1px solid transparent;
+      border-bottom: none;
+      padding: 0.6rem 1.2rem;
+      cursor: pointer;
+      border-radius: 6px 6px 0 0;
+      transition: color 0.2s, background 0.2s, border-color 0.2s;
+    }
+    .qs-tab:hover { color: var(--text-secondary); }
+    .qs-tab.active {
+      color: var(--accent-gold);
+      background: #0d1117;
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+    .qs-panel { display: none; }
+    .qs-panel.active { display: block; }
 
     /* ─── Commands Table ──────────────────────────────── */
     .commands-table-wrap {
@@ -355,20 +370,12 @@
       border: 1px solid var(--border);
       border-radius: 8px;
     }
-    .commands-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
-    }
+    .commands-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
     .commands-table thead th {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      text-align: left;
-      padding: 0.9rem 1.25rem;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.08em; color: var(--text-muted);
+      text-align: left; padding: 0.9rem 1.25rem;
       background: var(--bg-surface);
       border-bottom: 1px solid var(--border);
     }
@@ -381,73 +388,59 @@
     .commands-table tbody tr { transition: background 0.15s; }
     .commands-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
     .commands-table .cmd-name {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: 500;
-      color: var(--accent-green);
+      font-family: var(--font-mono); font-size: 0.85rem;
+      font-weight: 500; color: var(--accent-green);
       white-space: nowrap;
     }
     .commands-table .cmd-desc { color: var(--text-secondary); }
 
     /* ─── Performance ─────────────────────────────────── */
     .perf-context {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-      max-width: 600px;
+      font-size: 0.9rem; color: var(--text-secondary);
+      margin-bottom: 2.5rem; max-width: 600px;
     }
-    .perf-table-wrap {
-      overflow-x: auto;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+    .perf-bars { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 2.5rem; }
+    .perf-row-label {
+      font-size: 0.85rem; font-weight: 500;
+      color: var(--text-primary); margin-bottom: 0.6rem;
     }
-    .perf-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.9rem;
+    .perf-row-bars { display: flex; flex-direction: column; gap: 0.4rem; }
+    .perf-bar-line {
+      display: flex; align-items: center; gap: 0.75rem;
     }
-    .perf-table thead th {
-      font-family: var(--font-mono);
-      font-size: 0.72rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--text-muted);
-      text-align: left;
-      padding: 0.9rem 1.25rem;
-      background: var(--bg-surface);
-      border-bottom: 1px solid var(--border);
+    .perf-bar-name {
+      font-family: var(--font-mono); font-size: 0.72rem;
+      color: var(--text-muted); width: 52px;
+      text-align: right; flex-shrink: 0;
     }
-    .perf-table thead th:last-child { text-align: right; }
-    .perf-table tbody td {
-      padding: 0.9rem 1.25rem;
-      border-bottom: 1px solid var(--border);
+    .perf-bar-track {
+      flex: 1; height: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border-radius: 4px; overflow: hidden;
     }
-    .perf-table tbody tr:last-child td { border-bottom: none; }
-    .perf-table tbody tr { transition: background 0.15s; }
-    .perf-table tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
-    .perf-table .perf-task { font-weight: 500; color: var(--text-primary); }
-    .perf-table .perf-fast {
-      font-family: var(--font-mono);
-      font-weight: 500;
-      color: var(--accent-green);
+    .perf-bar-fill {
+      height: 100%; border-radius: 4px;
+      transition: width 1.2s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 0;
     }
-    .perf-table .perf-slow {
-      font-family: var(--font-mono);
-      color: var(--text-muted);
+    .perf-bar-fill.fast { background: var(--accent-green); }
+    .perf-bar-fill.slow { background: var(--text-muted); opacity: 0.5; }
+    .perf-bar-time {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      width: 52px; flex-shrink: 0;
     }
-    .perf-table .perf-speedup {
-      font-family: var(--font-mono);
-      font-weight: 500;
-      color: var(--accent-gold-bright);
-      text-align: right;
+    .perf-bar-time.fast { color: var(--accent-green); }
+    .perf-bar-time.slow { color: var(--text-muted); }
+    .perf-speedup-badge {
+      font-family: var(--font-mono); font-size: 0.78rem;
+      font-weight: 600; color: var(--accent-gold-bright);
+      margin-top: 0.3rem;
     }
     .perf-note {
-      font-size: 0.78rem;
-      color: var(--text-muted);
+      font-size: 0.78rem; color: var(--text-muted);
       font-style: italic;
-      margin-top: 1rem;
     }
+    .visible .perf-bar-fill { width: var(--bar-width); }
 
     /* ─── Install ─────────────────────────────────────── */
     .install-grid {
@@ -458,53 +451,47 @@
     .install-card {
       background: var(--bg-surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 2rem;
+      border-radius: 8px; padding: 2rem;
       transition: border-color 0.3s, background 0.3s;
     }
     .install-card:hover {
       border-color: var(--border-gold);
       background: var(--bg-card);
     }
-    .install-card-label {
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
+    .install-card-icon {
+      width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(201, 153, 58, 0.06);
+      border: 1px solid var(--border-gold);
+      border-radius: 8px; margin-bottom: 1rem;
       color: var(--accent-gold);
-      margin-bottom: 0.6rem;
+    }
+    .install-card-label {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      font-weight: 500; text-transform: uppercase;
+      letter-spacing: 0.1em; color: var(--accent-gold);
+      margin-bottom: 0.4rem;
     }
     .install-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.3rem;
-      font-weight: 500;
-      margin-bottom: 0.5rem;
+      font-family: var(--font-display); font-size: 1.3rem;
+      font-weight: 500; margin-bottom: 0.5rem;
     }
     .install-card p {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      margin-bottom: 1.2rem;
-      line-height: 1.55;
+      font-size: 0.85rem; color: var(--text-secondary);
+      margin-bottom: 1.2rem; line-height: 1.55;
     }
     .install-cmd {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      display: flex; align-items: center; justify-content: space-between;
       background: var(--bg-deep);
       border: 1px solid var(--border);
-      border-radius: 5px;
-      padding: 0.65rem 0.9rem;
-      font-family: var(--font-mono);
-      font-size: 0.8rem;
-      cursor: pointer;
-      transition: border-color 0.2s;
+      border-radius: 5px; padding: 0.65rem 0.9rem;
+      font-family: var(--font-mono); font-size: 0.8rem;
+      cursor: pointer; transition: border-color 0.2s;
     }
     .install-cmd:hover { border-color: var(--accent-gold); }
     .install-cmd code { color: var(--text-primary); }
     .install-cmd .copy-icon {
-      color: var(--text-muted);
-      flex-shrink: 0;
+      color: var(--text-muted); flex-shrink: 0;
       transition: color 0.2s;
     }
     .install-cmd:hover .copy-icon { color: var(--accent-gold); }
@@ -515,34 +502,30 @@
       padding: 3rem 0;
     }
     .footer-content {
-      display: flex;
-      align-items: center;
+      display: flex; align-items: center;
       justify-content: space-between;
     }
     .footer-brand {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 500;
-      color: var(--text-secondary);
+      font-family: var(--font-display); font-size: 1.1rem;
+      font-weight: 500; color: var(--text-secondary);
     }
     .footer-links { display: flex; gap: 1.5rem; }
     .footer-links a {
-      font-size: 0.82rem;
-      color: var(--text-muted);
+      font-size: 0.82rem; color: var(--text-muted);
       transition: color 0.2s;
     }
     .footer-links a:hover { color: var(--text-primary); }
 
     /* ─── Reveal animation ────────────────────────────── */
     .reveal {
-      opacity: 0;
-      transform: translateY(20px);
+      opacity: 0; transform: translateY(20px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.2s; }
+    .reveal-d3 { transition-delay: 0.25s; }
+    .reveal-d4 { transition-delay: 0.3s; }
 
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(16px); }
@@ -557,22 +540,26 @@
       .section-header { margin-bottom: 2.5rem; }
       .section-header h2 { font-size: 2rem; }
       .features-grid { grid-template-columns: 1fr; }
+      .feature-card,
+      .feature-card:nth-child(4),
+      .feature-card:nth-child(5) { grid-column: span 1; }
       .install-grid { grid-template-columns: 1fr; }
       .hero { padding: 6rem 1.5rem 4rem; }
       .hero-install { font-size: 0.8rem; padding: 0.7rem 1rem; }
       .footer-content { flex-direction: column; gap: 1rem; text-align: center; }
     }
-
     @media (max-width: 480px) {
       .container { padding: 0 1.25rem; }
       .nav-links a.nav-hide-mobile { display: none; }
       .hero-title { font-size: 3.5rem; }
-      .terminal-body { padding: 1rem; }
-      .terminal-body pre { font-size: 0.72rem; }
+      .terminal-body, .code-body { padding: 1rem; }
+      .terminal-body pre, .code-body pre { font-size: 0.72rem; }
     }
   </style>
 </head>
 <body>
+
+  <div class="grain"></div>
 
   <!-- ─── Nav ──────────────────────────────────────── -->
   <nav id="nav">
@@ -580,6 +567,7 @@
     <div class="nav-links">
       <a href="#features" class="nav-hide-mobile">Features</a>
       <a href="#quickstart" class="nav-hide-mobile">Quick Start</a>
+      <a href="#commands" class="nav-hide-mobile">Commands</a>
       <a href="#install">Install</a>
       <a href="https://github.com/Flurry13/corpa" target="_blank" rel="noopener" class="nav-github">
         <svg viewBox="0 0 16 16" width="15" height="15" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -595,7 +583,8 @@
         <div class="hero-badge">Text Analysis CLI</div>
         <h1 class="hero-title">corpa</h1>
         <p class="hero-tagline">The ripgrep of text analysis.</p>
-        <div class="hero-install" id="hero-install" title="Click to copy">
+        <p class="hero-desc">N-grams, readability, entropy, language detection, and BPE tokenization — all in milliseconds, from your terminal or Python.</p>
+        <div class="hero-install" id="hero-install" title="Click to copy" role="button" tabindex="0" aria-label="Copy install command">
           <span>
             <span class="prompt">$</span>
             <span class="cmd"> cargo</span>
@@ -606,8 +595,14 @@
         </div>
         <div class="badges">
           <a href="https://crates.io/crates/corpa" class="badge">
-            <svg viewBox="0 0 512 512" width="14" height="14" fill="currentColor"><path d="M239.1 6.3l-208 78c-18.7 7-31.1 25-31.1 45v225.1c0 18.2 10.3 34.8 26.5 42.9l208 104c13.5 6.8 29.4 6.8 42.9 0l208-104c16.3-8.1 26.5-24.8 26.5-42.9V129.3c0-20-12.4-37.9-31.1-44.9l-208-78C262 2.2 250 2.2 239.1 6.3z"/></svg>
+            <!-- Rust/Cargo gear icon -->
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
             v0.4.1
+          </a>
+          <a href="https://pypi.org/project/corpa/" class="badge">
+            <!-- Python icon -->
+            <svg viewBox="0 0 256 255" width="14" height="14" fill="currentColor"><path d="M126.9.072c-64.8 0-60.8 28.1-60.8 28.1l.1 29.1h61.9v8.8H41.6S.1 61.4.1 126.8c0 65.4 36.2 63.1 36.2 63.1h21.6v-30.4s-1.2-36.2 35.6-36.2h61.4s34.5.6 34.5-33.3V34S194.7.072 126.9.072zM92.8 19.7a11.1 11.1 0 0111.1 11.1 11.1 11.1 0 01-11.1 11.1 11.1 11.1 0 01-11.1-11.1A11.1 11.1 0 0192.8 19.7z"/><path d="M128.8 254.1c64.8 0 60.8-28.1 60.8-28.1l-.1-29.1H127.6v-8.8h86.4s41.5 4.7 41.5-60.7c0-65.4-36.2-63.1-36.2-63.1h-21.6v30.4s1.2 36.2-35.6 36.2h-61.4s-34.5-.6-34.5 33.3v56s-5.2 33.9 62.5 33.9zm34.1-19.6a11.1 11.1 0 01-11.1-11.1 11.1 11.1 0 0111.1-11.1 11.1 11.1 0 0111.1 11.1 11.1 11.1 0 01-11.1 11.1z"/></svg>
+            PyPI
           </a>
           <a href="https://github.com/Flurry13/corpa" class="badge">
             <svg viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
@@ -630,31 +625,43 @@
         <div class="features-grid">
           <div class="feature-card reveal">
             <div class="feature-icon">
+              <!-- Lightning bolt -->
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
             </div>
             <h3>Fast</h3>
             <p>Parallel processing via rayon. Memory-mapped I/O. Analyzes multi-gigabyte corpora in under a second.</p>
           </div>
-          <div class="feature-card reveal">
+          <div class="feature-card reveal reveal-d1">
             <div class="feature-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <!-- Terminal / pipe -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
             </div>
             <h3>Composable</h3>
             <p>Unix-friendly design with structured output. JSON, CSV, and table formats pipe seamlessly with jq, awk, and standard tooling.</p>
           </div>
-          <div class="feature-card reveal">
+          <div class="feature-card reveal reveal-d2">
             <div class="feature-icon">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+              <!-- Layers / stack -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
             </div>
             <h3>Comprehensive</h3>
             <p>Nine analysis commands covering vocabulary statistics, n-gram frequencies, readability indices, Shannon entropy, Zipf's law, and more.</p>
           </div>
-          <div class="feature-card reveal">
+          <div class="feature-card reveal reveal-d1">
             <div class="feature-icon">
+              <!-- Globe -->
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
             </div>
             <h3>Multi-platform</h3>
             <p>Available as a native CLI binary and a Python package via PyO3. npm/WASM module for browser and Node.js coming soon.</p>
+          </div>
+          <div class="feature-card reveal reveal-d2">
+            <div class="feature-icon">
+              <!-- Activity / streaming -->
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <h3>Streaming</h3>
+            <p>Process unbounded stdin streams with incremental chunk-based output. Emit cumulative results after each configurable chunk.</p>
           </div>
         </div>
       </div>
@@ -670,30 +677,35 @@
           <h2>Quick Start</h2>
         </div>
         <p class="quickstart-subtitle reveal">All commands accept file paths, directories, or stdin. Output format is controlled with <code style="font-family:var(--font-mono);color:var(--accent-gold);font-size:0.88em">--format</code>.</p>
-        <div class="terminal reveal">
-          <div class="terminal-header">
-            <div class="terminal-dots">
-              <span class="dot-red"></span>
-              <span class="dot-yellow"></span>
-              <span class="dot-green"></span>
+        <div class="qs-tabs reveal">
+          <button class="qs-tab active" data-tab="cli">CLI</button>
+          <button class="qs-tab" data-tab="python">Python</button>
+        </div>
+        <div class="qs-panel active reveal" id="panel-cli">
+          <div class="terminal">
+            <div class="terminal-header">
+              <div class="terminal-dots">
+                <span class="dot-red"></span>
+                <span class="dot-yellow"></span>
+                <span class="dot-green"></span>
+              </div>
+              <span class="terminal-title">Terminal</span>
             </div>
-            <span class="terminal-title">Terminal</span>
-          </div>
-          <div class="terminal-body">
+            <div class="terminal-body">
 <pre><span class="t-prompt">$</span> <span class="t-cmd">corpa</span> <span class="t-sub">stats</span> <span class="t-file">prose.txt</span>
 
-<span class="t-label">  corpa</span> <span class="t-dim">·</span> <span class="t-file">prose.txt</span>
-<span class="t-dim">┌─────────────────────┬────────────┐</span>
-<span class="t-dim">│</span> <span class="t-header">Metric</span>              <span class="t-dim">┆</span>      <span class="t-header">Value</span> <span class="t-dim">│</span>
-<span class="t-dim">╞═════════════════════╪════════════╡</span>
-<span class="t-dim">│</span> Tokens (words)      <span class="t-dim">┆</span>      <span class="t-value">  175</span> <span class="t-dim">│</span>
-<span class="t-dim">│</span> Types (unique)      <span class="t-dim">┆</span>      <span class="t-value">   95</span> <span class="t-dim">│</span>
-<span class="t-dim">│</span> Characters          <span class="t-dim">┆</span>      <span class="t-value">  805</span> <span class="t-dim">│</span>
-<span class="t-dim">│</span> Sentences           <span class="t-dim">┆</span>      <span class="t-value">    6</span> <span class="t-dim">│</span>
-<span class="t-dim">│</span> Type-Token Ratio    <span class="t-dim">┆</span>   <span class="t-value">0.5429</span> <span class="t-dim">│</span>
-<span class="t-dim">│</span> Hapax Legomena      <span class="t-dim">┆</span> <span class="t-value">70 (73.7%)</span> <span class="t-dim">│</span>
-<span class="t-dim">│</span> Avg Sentence Length <span class="t-dim">┆</span> <span class="t-value">29.2 words</span> <span class="t-dim">│</span>
-<span class="t-dim">└─────────────────────┴────────────┘</span>
+<span class="t-label">  corpa</span> <span class="t-dim">&middot;</span> <span class="t-file">prose.txt</span>
+<span class="t-dim">&#9484;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9516;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9488;</span>
+<span class="t-dim">&#9474;</span> <span class="t-header">Metric</span>              <span class="t-dim">&#9478;</span>      <span class="t-header">Value</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9566;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9579;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9552;&#9573;</span>
+<span class="t-dim">&#9474;</span> Tokens (words)      <span class="t-dim">&#9478;</span>      <span class="t-value">  175</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9474;</span> Types (unique)      <span class="t-dim">&#9478;</span>      <span class="t-value">   95</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9474;</span> Characters          <span class="t-dim">&#9478;</span>      <span class="t-value">  805</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9474;</span> Sentences           <span class="t-dim">&#9478;</span>      <span class="t-value">    6</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9474;</span> Type-Token Ratio    <span class="t-dim">&#9478;</span>   <span class="t-value">0.5429</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9474;</span> Hapax Legomena      <span class="t-dim">&#9478;</span> <span class="t-value">70 (73.7%)</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9474;</span> Avg Sentence Length <span class="t-dim">&#9478;</span> <span class="t-value">29.2 words</span> <span class="t-dim">&#9474;</span>
+<span class="t-dim">&#9492;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9524;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9472;&#9496;</span>
 
 <span class="t-prompt">$</span> <span class="t-cmd">corpa</span> <span class="t-sub">lang</span> <span class="t-file">document.txt</span> <span class="t-flag">--format json</span>
 <span class="t-dim">[</span>
@@ -701,6 +713,36 @@
   <span class="t-dim">{</span><span class="t-json-key">"metric"</span>: <span class="t-json-str">"Script"</span>, <span class="t-json-key">"value"</span>: <span class="t-json-str">"Latin"</span><span class="t-dim">}</span>,
   <span class="t-dim">{</span><span class="t-json-key">"metric"</span>: <span class="t-json-str">"Confidence"</span>, <span class="t-json-key">"value"</span>: <span class="t-json-str">"0.99"</span><span class="t-dim">}</span>
 <span class="t-dim">]</span></pre>
+            </div>
+          </div>
+        </div>
+        <div class="qs-panel reveal" id="panel-python">
+          <div class="code-block">
+            <div class="code-header">
+              <div class="code-header-dot"></div>
+              <span class="code-header-title">example.py</span>
+            </div>
+            <div class="code-body">
+<pre><span class="c-kw">import</span> <span class="c-var">corpa</span>
+
+<span class="c-comment"># Analyze text statistics</span>
+<span class="c-var">result</span> <span class="c-op">=</span> corpa.<span class="c-fn">stats</span>(<span class="c-str">"corpus.txt"</span>)
+<span class="c-fn">print</span>(result[<span class="c-str">"tokens"</span>])            <span class="c-comment"># 175</span>
+<span class="c-fn">print</span>(result[<span class="c-str">"type_token_ratio"</span>])  <span class="c-comment"># 0.5429</span>
+
+<span class="c-comment"># Or pass text directly</span>
+corpa.<span class="c-fn">stats</span>(<span class="c-var">text</span><span class="c-op">=</span><span class="c-str">"The quick brown fox jumps over the lazy dog."</span>)
+<span class="c-comment"># {'tokens': 9, 'types': 8, 'sentences': 1, ...}</span>
+
+<span class="c-comment"># Language detection</span>
+<span class="c-var">lang</span> <span class="c-op">=</span> corpa.<span class="c-fn">lang</span>(<span class="c-var">text</span><span class="c-op">=</span><span class="c-str">"Bonjour le monde"</span>)
+<span class="c-fn">print</span>(lang[<span class="c-str">"language"</span>])  <span class="c-comment"># "Fran&ccedil;ais"</span>
+<span class="c-fn">print</span>(lang[<span class="c-str">"confidence"</span>]) <span class="c-comment"># 0.99</span>
+
+<span class="c-comment"># N-gram analysis</span>
+<span class="c-var">ngrams</span> <span class="c-op">=</span> corpa.<span class="c-fn">ngrams</span>(<span class="c-str">"corpus.txt"</span>, <span class="c-var">n</span><span class="c-op">=</span><span class="c-num">2</span>, <span class="c-var">top</span><span class="c-op">=</span><span class="c-num">10</span>)
+<span class="c-comment"># [{'ngram': 'of the', 'frequency': 4521, 'relative_pct': 2.09}, ...]</span></pre>
+            </div>
           </div>
         </div>
       </div>
@@ -776,37 +818,55 @@
           <h2>Performance</h2>
         </div>
         <p class="perf-context reveal">Benchmarks on a 1 GB English text corpus (Apple M-series, 8 cores).</p>
-        <div class="perf-table-wrap reveal">
-          <table class="perf-table">
-            <thead>
-              <tr>
-                <th>Task</th>
-                <th>corpa</th>
-                <th>Python</th>
-                <th style="text-align:right">Speedup</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="perf-task">Word count</td>
-                <td class="perf-fast">1.9 s</td>
-                <td class="perf-slow">11.5 s</td>
-                <td class="perf-speedup">6x</td>
-              </tr>
-              <tr>
-                <td class="perf-task">Bigram frequency</td>
-                <td class="perf-fast">3.4 s</td>
-                <td class="perf-slow">53.9 s</td>
-                <td class="perf-speedup">16x</td>
-              </tr>
-              <tr>
-                <td class="perf-task">Readability</td>
-                <td class="perf-fast">5.4 s</td>
-                <td class="perf-slow">107.9 s</td>
-                <td class="perf-speedup">20x</td>
-              </tr>
-            </tbody>
-          </table>
+        <div class="perf-bars reveal" id="perf-bars">
+          <div>
+            <div class="perf-row-label">Word count</div>
+            <div class="perf-row-bars">
+              <div class="perf-bar-line">
+                <span class="perf-bar-name">corpa</span>
+                <div class="perf-bar-track"><div class="perf-bar-fill fast" style="--bar-width: 16.5%"></div></div>
+                <span class="perf-bar-time fast">1.9s</span>
+              </div>
+              <div class="perf-bar-line">
+                <span class="perf-bar-name">Python</span>
+                <div class="perf-bar-track"><div class="perf-bar-fill slow" style="--bar-width: 100%"></div></div>
+                <span class="perf-bar-time slow">11.5s</span>
+              </div>
+            </div>
+            <div class="perf-speedup-badge">6x faster</div>
+          </div>
+          <div>
+            <div class="perf-row-label">Bigram frequency</div>
+            <div class="perf-row-bars">
+              <div class="perf-bar-line">
+                <span class="perf-bar-name">corpa</span>
+                <div class="perf-bar-track"><div class="perf-bar-fill fast" style="--bar-width: 6.3%"></div></div>
+                <span class="perf-bar-time fast">3.4s</span>
+              </div>
+              <div class="perf-bar-line">
+                <span class="perf-bar-name">Python</span>
+                <div class="perf-bar-track"><div class="perf-bar-fill slow" style="--bar-width: 100%"></div></div>
+                <span class="perf-bar-time slow">53.9s</span>
+              </div>
+            </div>
+            <div class="perf-speedup-badge">16x faster</div>
+          </div>
+          <div>
+            <div class="perf-row-label">Readability</div>
+            <div class="perf-row-bars">
+              <div class="perf-bar-line">
+                <span class="perf-bar-name">corpa</span>
+                <div class="perf-bar-track"><div class="perf-bar-fill fast" style="--bar-width: 5%"></div></div>
+                <span class="perf-bar-time fast">5.4s</span>
+              </div>
+              <div class="perf-bar-line">
+                <span class="perf-bar-name">Python</span>
+                <div class="perf-bar-track"><div class="perf-bar-fill slow" style="--bar-width: 100%"></div></div>
+                <span class="perf-bar-time slow">107.9s</span>
+              </div>
+            </div>
+            <div class="perf-speedup-badge">20x faster</div>
+          </div>
         </div>
         <p class="perf-note reveal">Benchmarked against equivalent pure Python implementations.</p>
       </div>
@@ -823,6 +883,10 @@
         </div>
         <div class="install-grid">
           <div class="install-card reveal">
+            <div class="install-card-icon">
+              <!-- Terminal icon for CLI -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" y1="19" x2="20" y2="19"/></svg>
+            </div>
             <div class="install-card-label">CLI</div>
             <h3>Rust / Cargo</h3>
             <p>Install the native binary with full parallel processing and BPE tokenization support.</p>
@@ -831,7 +895,11 @@
               <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
             </div>
           </div>
-          <div class="install-card reveal">
+          <div class="install-card reveal reveal-d1">
+            <div class="install-card-icon">
+              <!-- Python logo -->
+              <svg width="20" height="20" viewBox="0 0 256 255" fill="currentColor"><path d="M126.9.072c-64.8 0-60.8 28.1-60.8 28.1l.1 29.1h61.9v8.8H41.6S.1 61.4.1 126.8c0 65.4 36.2 63.1 36.2 63.1h21.6v-30.4s-1.2-36.2 35.6-36.2h61.4s34.5.6 34.5-33.3V34S194.7.072 126.9.072zM92.8 19.7a11.1 11.1 0 0111.1 11.1 11.1 11.1 0 01-11.1 11.1 11.1 11.1 0 01-11.1-11.1A11.1 11.1 0 0192.8 19.7z"/><path d="M128.8 254.1c64.8 0 60.8-28.1 60.8-28.1l-.1-29.1H127.6v-8.8h86.4s41.5 4.7 41.5-60.7c0-65.4-36.2-63.1-36.2-63.1h-21.6v30.4s1.2 36.2-35.6 36.2h-61.4s-34.5-.6-34.5 33.3v56s-5.2 33.9 62.5 33.9zm34.1-19.6a11.1 11.1 0 01-11.1-11.1 11.1 11.1 0 0111.1-11.1 11.1 11.1 0 0111.1 11.1 11.1 11.1 0 01-11.1 11.1z"/></svg>
+            </div>
             <div class="install-card-label">Python</div>
             <h3>pip / PyO3</h3>
             <p>All commands as native Python functions. Accepts file paths or text strings directly.</p>
@@ -840,7 +908,11 @@
               <svg class="copy-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>
             </div>
           </div>
-          <div class="install-card reveal">
+          <div class="install-card reveal reveal-d2">
+            <div class="install-card-icon">
+              <!-- JavaScript/WASM braces icon -->
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8l-4 4 4 4"/><path d="M17 8l4 4-4 4"/><line x1="14" y1="4" x2="10" y2="20"/></svg>
+            </div>
             <div class="install-card-label">JavaScript</div>
             <h3>npm / WASM</h3>
             <p>Rust compiled to WebAssembly for browser and Node.js environments.</p>
@@ -861,6 +933,7 @@
         <div class="footer-links">
           <a href="https://github.com/Flurry13/corpa">GitHub</a>
           <a href="https://crates.io/crates/corpa">crates.io</a>
+          <a href="https://pypi.org/project/corpa/">PyPI</a>
           <a href="https://github.com/Flurry13/corpa/blob/main/LICENSE">MIT License</a>
         </div>
       </div>
@@ -888,6 +961,16 @@
       observer.observe(el);
     });
 
+    // Quickstart tabs
+    document.querySelectorAll('.qs-tab').forEach(function(tab) {
+      tab.addEventListener('click', function() {
+        document.querySelectorAll('.qs-tab').forEach(function(t) { t.classList.remove('active'); });
+        document.querySelectorAll('.qs-panel').forEach(function(p) { p.classList.remove('active'); });
+        this.classList.add('active');
+        document.getElementById('panel-' + this.getAttribute('data-tab')).classList.add('active');
+      });
+    });
+
     // Copy hero install command
     document.getElementById('hero-install').addEventListener('click', function() {
       var el = this;
@@ -903,16 +986,14 @@
       });
     });
 
-    // Copy install card commands via data attribute
+    // Copy install card commands
     document.querySelectorAll('.install-cmd[data-copy]').forEach(function(el) {
       el.addEventListener('click', function() {
         var text = this.getAttribute('data-copy');
         var icon = this.querySelector('.copy-icon');
         navigator.clipboard.writeText(text).then(function() {
           icon.style.color = 'var(--accent-green)';
-          setTimeout(function() {
-            icon.style.color = '';
-          }, 1500);
+          setTimeout(function() { icon.style.color = ''; }, 1500);
         });
       });
     });
