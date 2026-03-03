@@ -217,16 +217,9 @@ Benchmarks on a 1GB English text corpus (Apple M2, 8 cores):
 - **v0.2.0 — Analysis**: `readability`, `entropy`, `zipf`, stopword filtering, case folding, parallel processing
 - **v0.3.0 — Language Models**: `perplexity` with Laplace/Stupid Backoff, `lang` detection, BPE token counting
 - **v0.4.0 — Ecosystem**: Python bindings (PyO3), WASM/npm package, streaming mode, shell completions
+- **v0.5.0 — Robustness & Output Quality**: Typed JSON output, improved sentence detection (abbreviations, ellipsis collapsing), input validation hardening, Unicode-aware syllable counting, streaming entropy rewrite
 
 ### Planned
-
-#### v0.5.0 — Robustness & Output Quality
-
-- ~~**Typed JSON output** — Emit numeric values as JSON numbers instead of comma-formatted strings for proper `jq` interoperability~~
-- ~~**Improved sentence detection** — Collapse consecutive sentence-ending punctuation (e.g., `...` = 1, `?!` = 1) and handle common abbreviations (Mr., Dr., U.S.A.)~~
-- ~~**Input validation hardening** — Guard against `n=0` panic in streaming n-gram path; clamp entropy redundancy to [0, 1]; validate parameters in public library API~~
-- ~~**Unicode-aware syllable counting** — Recognize accented vowels (e, i, o, u) for correct readability scores on non-English Latin-script text~~
-- ~~**Streaming entropy rewrite** — Replace O(n^2) accumulate-all-words approach with incremental entropy estimation that respects memory bounds~~
 
 #### v0.6.0 — Bindings Parity
 
